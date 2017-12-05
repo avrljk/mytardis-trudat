@@ -1,17 +1,17 @@
-from mytardisbf import metadata, tasks
 from django.conf import settings
-
+from tardis.apps.mytardisdatacert.mytardisdatacert import metadata, tasks
 
 class MetadataFilter(object):
-    """MyTardis filter for extracting metadata from micrscopy image
-    formats using the Bioformats library.
+    """MyTardis filter to process uploaded datasets and datafiles, addding
+       metadata indicating their compliance with standards and procdures.
 
     Attributes
     ----------
     name: str
         Short name for schema
     schema: str
-        Name of the schema to load the EXIF data into.
+        Name of the schema to load the metadata into.
+
     """
     def __init__(self, name, schema):
         self.name = name
@@ -30,11 +30,11 @@ class MetadataFilter(object):
             Specifies whether a new record is being created.
         """
         instance = kwargs.get('instance')
-        bfqueue = getattr(settings, 'BIOFORMATS_QUEUE', 'celery')
-        tasks.process_meta_file_output\
-            .apply_async(args=[metadata.get_meta, instance, self.schema,
-                               False], queue=bfqueue)
+        q = getattr(settings, 'DATACERT_QUEUE', 'celery')
 
+        tasks.process_meta\
+            .apply_async(args=[metadata.get_meta, instance, self.schema,
+                              False], queue=q)
 
 def make_filter(name, schema):
     return MetadataFilter(name, schema)

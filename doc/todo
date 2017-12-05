@@ -1,0 +1,38 @@
+. integrate code into Dean's latest Docker container setup
+    . scripts to setup mytardis and the app from inside their containers:
+        . use "docker-compose exec <container> /bin/bash" to run
+	    . ../jk-config-trudat/setup-app.bash
+	    . ../jk-config-trudat/setup-celery.bash
+
+. check that both the NIF_certified and DICOM statistics schemas from
+  fixtures/mytardisdatacert.json are being created:
+    . they are created on-demand when the app is first loaded (apps.py)
+    . NIF generic and DICOM stats schema variants:
+	. .../open-format/1.0
+	. .../open-format/dicom-stats/1.0
+    . check they are both created for both DataSet AND DataFile objects
+        . .../dataset/...
+	. .../datafile/...
+
+. rename mytardisdatacert to trudat? (dir, files, content)
+    . use "git status": files renamed for mytardisbf -> mydardisdatacert
+
+. remove
+    . previewimage.py
+
+. remove tests; convert BioFormats tests by rewriting
+    . tests/
+
+. tasks.py
+    . process_meta() needs to check DataSet for each Datafile
+        . DataSet retains/gains NIF_certified metadata iff all .PvDatasets it
+	  contains are already NIF_certified (numDicomFiles > 0)
+            .including the newly added DataFile
+        . ensure DataSet locked prior to query/update
+
+. check call_command(loaddata) in apps.py.  Maybe use a safer migration:
+    https://stackoverflow.com/questions/25960850/loading-initial-data-with-django-1-7-and-data-migrations/39743581#39743581
+
+. check MIT licence with Andrew
+. remove any redundant lines from setup.cfg (tag_svn_revision?)
+. rewrite README.md

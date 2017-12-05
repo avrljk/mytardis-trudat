@@ -3,38 +3,38 @@ import unittest
 import numpy as np
 import tempfile
 
-from mytardisbf import previewimage
+from mytardisdatacert import previewimage
 from scipy.ndimage import imread
 
 
 class PreviewImageFilterTests(unittest.TestCase):
     """Tests for PreviewImage Filter"""
     def setUp(self):
-        self.multi_image_path = "./mytardisbf/tests/data/IMCD3 170615.lif"
-        self.rgb = "./mytardisbf/tests/data/IMG_0222.png"
-        self.her = "./mytardisbf/tests/data/her.tif"
-        self.dv = "./mytardisbf/tests/data/D3D.dv"
+        self.multi_image_path = "./mytardisdatacert/tests/data/IMCD3 170615.lif"
+        self.rgb = "./mytardisdatacert/tests/data/IMG_0222.png"
+        self.her = "./mytardisdatacert/tests/data/her.tif"
+        self.dv = "./mytardisdatacert/tests/data/D3D.dv"
 
     @unittest.skip("requires large dataset not generally available")
     def test_get_preview_image(self):
-        zimg = imread("./mytardisbf/tests/data/zoom.png")
+        zimg = imread("./mytardisdatacert/tests/data/zoom.png")
         img = previewimage.get_preview_image(self.multi_image_path)
         np.testing.assert_array_equal(img, zimg)
 
     @unittest.skip("requires large dataset not generally available")
     def test_get_dv_preview(self):
-        zdv = imread("./mytardisbf/tests/data/D3D_zoom.png")
+        zdv = imread("./mytardisdatacert/tests/data/D3D_zoom.png")
         img = previewimage.get_preview_image(self.dv)
         np.testing.assert_array_equal(img, zdv)
 
     def test_get_rgb_preview(self):
-        zrgb = imread("./mytardisbf/tests/data/rgb_zoom.png")
+        zrgb = imread("./mytardisdatacert/tests/data/rgb_zoom.png")
         img = previewimage.get_preview_image(self.rgb)
         np.testing.assert_array_equal(img, zrgb)
 
     @unittest.skip("requires large dataset not generally available")
     def test_get_16bit_preview(self):
-        z16 = imread("./mytardisbf/tests/data/z16.png")
+        z16 = imread("./mytardisdatacert/tests/data/z16.png")
         img = previewimage.get_preview_image(self.her)
         np.testing.assert_array_equal(img, z16)
 

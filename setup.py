@@ -1,18 +1,18 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.2.0'
+version = '0.0.0'
 
-setup(name='mytardisbf',
+setup(name='mytardisdatacert',
       version=version,
-      description="Bioformats App for MyTardis",
+      description="TruDat Trusted Data Repository for MyTardis",
       long_description="""\
-Bioformats App for extracting metadata and thumbnails from microscopy images\
-in MyTardis""",
+A MyTardis app to process uploaded datasets and datafiles, addding metadata \
+indicating their compliance with standards and procedures.""",
       classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
-      keywords='mytardis bioformats',
-      author='Keith Schulze',
-      author_email='keith.schulze@monash.edu',
+      keywords='mytardis trusted data trudat NIF certification procedure standard',
+      author='Jonathan Knispel',
+      author_email='jonathan.knispel@uwa.edu.au',
       url='',
       license='MIT',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
@@ -20,10 +20,6 @@ in MyTardis""",
       zip_safe=False,
       install_requires=[
           # -*- Extra requirements: -*-
-          'numpy>=1.9',
-          'scipy>=0.15',
-          'javabridge>=1.0',
-          'python-bioformats>=1.0'
       ],
       entry_points="""
       # -*- Entry points: -*-

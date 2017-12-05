@@ -1,0 +1,63 @@
+version: '2'
+volumes:
+  db:
+  staging:
+  static:
+  store:
+services:
+  db:
+    image: postgres:9.5
+    environment:
+      - DB_NAME=mytardis-prod
+      - REPLICATION_USER=repluser
+      - REPLICATION_PASS=repluserpass
+    volumes:
+      - db:/var/lib/postgresql
+    mem_limit: 1g
+  app:
+    image: uwaedu/mytardis_app:latest
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - staging:/srv/mytardis/var/staging/
+      - static:/srv/mytardis/static/
+      - store:/srv/mytardis/var/store/
+      - ./src/mytardisdatacert/:/srv/mytardis/tardis/apps/mytardisdatacert/
+      - ./src/jk-config-trudat/:/srv/mytardis/jk-config-trudat/
+    command: --forwarded-allow-ips="*" --log-level=debug
+    links:
+      - db
+      - rabbit
+    environment:
+      - DJANGO_DEBUG=True
+      - MYTARDIS_ALLOWED_HOSTS='*'
+      - MYTARDIS_STORAGE_BASE_DIR=/srv/mytardis/var/store
+      - MYTARDIS_STATIC=/srv/mytardis/static/
+      - MYTARDIS_TIME_ZONE=Australia/Perth
+      - MYTARDIS_ENABLE_FILTER_BIOFORMATS='True'
+      - MYTARDIS_DEFAULT_INSTITUTION='The University of Western Australia'
+    mem_limit: 1g 
+  rabbit:
+    image: rabbitmq:3-management
+    hostname: django-rabbit-001
+    environment:
+      - RABBITMQ_ERLANG_COOKIE='secret cookie here'
+    mem_limit: 500m
+  celery:
+    image: uwaedu/mytardis_celery:latest
+    volumes:
+      - staging:/srv/mytardis/var/staging/
+      - static:/srv/mytardis/static/
+      - store:/srv/mytardis/var/store/
+      - ./src/mytardisdatacert/:/srv/mytardis/tardis/apps/mytardisdatacert/
+      - ./src/jk-config-trudat/:/srv/mytardis/jk-config-trudat/
+    links:
+      - db
+      - rabbit
+    environment:
+      - MYTARDIS_ALLOWED_HOSTS='*'
+      - MYTARDIS_STORAGE_BASE_DIR=/srv/mytardis/var/store
+      - MYTARDIS_STATIC=/srv/mytardis/static/
+      - MYTARDIS_TIME_ZONE=Australia/Perth
+      - MYTARDIS_ENABLE_FILTER_BIOFORMATS='True'
+    mem_limit: 1g

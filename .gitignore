@@ -59,24 +59,5 @@ docs/_build/
 # PyBuilder
 target/
 
-
-### SublimeText ###
-# cache files for sublime text
-*.tmlanguage.cache
-*.tmPreferences.cache
-*.stTheme.cache
-
-# workspace files are user-specific
-*.sublime-workspace
-
-# project files should be checked into the repository, unless a significant
-# proportion of contributors will probably not be using SublimeText
-*.sublime-project
-
 # sftp configuration file
 sftp-config.json
-
-# Big Test Data
-mytardisbf/tests/data/D3D.dv
-mytardisbf/tests/data/IMCD3 170615.lif
-mytardisbf/tests/data/her.tif

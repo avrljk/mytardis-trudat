@@ -3,16 +3,16 @@ import unittest
 import numpy as np
 import tempfile
 
-from mytardisbf import metadata
+from mytardisdatacert import metadata
 from scipy.ndimage import imread
 
 
 class MetadataTest(unittest.TestCase):
     """Unit tests for metadata methods"""
     def setUp(self):
-        self.dv = "./mytardisbf/tests/data/D3D.dv"
-        self.dv_zoom = "./mytardisbf/tests/data/D3D_zoom.png"
-        self.dv_meta = "./mytardisbf/tests/data/D3D.json"
+        self.dv = "./mytardisdatacert/tests/data/D3D.dv"
+        self.dv_zoom = "./mytardisdatacert/tests/data/D3D_zoom.png"
+        self.dv_meta = "./mytardisdatacert/tests/data/D3D.json"
 
     @unittest.skip("requires large dataset not generally available")
     def test_get_meta(self):
@@ -32,5 +32,5 @@ class MetadataTest(unittest.TestCase):
 
     def test_get_non_ome_xml(self):
         td = tempfile.gettempdir()
-        out = metadata.get_meta("./mytardisbf/tests/data/a.xml", td)
+        out = metadata.get_meta("./mytardisdatacert/tests/data/a.xml", td)
         self.assertEqual(out, None)
